@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Kube Hello</title>
+        <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.png') }}">
+        <link rel='stylesheet' type='text/css' href="{{ url_for('static', filename='style.css') }}">
+    </head>
+    <body>
+        <header>
+            <div class="logo-text">
+                <img src="{{ url_for('static', filename='kube.png') }}">
+                <span>Kube Hello</span>
+            </div>
+            <div class="gitlab-source">
+                <a href="https://github.com/davemulford/kube-hello">View in GitHub</a>
+            </div>    
+        </header>
+        <div class="content">
+            <h1>{{ message }}</h1>
+            <p>Running on {{ pod_name }}</p>
+
+            <h2>Nodes</h2>
+            <table>
+                <thead>
+                    <th>Name</th>
+                    <th>Status</th>
+                    <th>Roles</th>
+                    <th>Age</th>
+                    <th>Kube Version</th>
+                </thead>
+                <tbody>
+                    {%- for node in nodes.get("rows", []) -%}
+                    <tr>
+                        <td>{{ node["cells"][0] }}</td>
+                        <td>{{ node["cells"][1] }}</td>
+                        <td>{{ node["cells"][2] }}</td>
+                        <td>{{ node["cells"][3] }}</td>
+                        <td>{{ node["cells"][4] }}</td>
+                    </tr>
+                    {%- endfor -%}
+                </tbody>
+            </table>
+
+            <h2>Pods</h2>
+            <table>
+                <thead>
+                    <th>Namespace</th>
+                    <th>Name</th>
+                    <th>Ready</th>
+                    <th>Status</th>
+                    <th>Restarts</th>
+                    <th>Age</th>
+                </thead>
+                <tbody>
+                    {%- for pod in pods.get("rows", []) -%}
+                    <tr>
+                        <td>{{ pod["object"]["metadata"]["namespace"] }}</td>
+                        <td>{{ pod["cells"][0] }}</td>
+                        <td>{{ pod["cells"][1] }}</td>
+                        <td>{{ pod["cells"][2] }}</td>
+                        <td>{{ pod["cells"][3] }}</td>
+                        <td>{{ pod["cells"][4] }}</td>
+                    </tr>
+                    {%- endfor -%}
+                </tbody>
+            </table>
+        </div>
+    </body>
+</html>
